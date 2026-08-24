@@ -7,8 +7,13 @@ from market_data_service.models import MarketDataEvent
 
 
 class MarketDataConsumer:
-    def __init__(self, source: MarketDataSource) -> None:
+    def __init__(
+        self,
+        source: MarketDataSource,
+        reconnect_delay_seconds: float = 5.0,
+    ) -> None:
         self.source = source
+        self.reconnect_delay_seconds = reconnect_delay_seconds
         self.latest_event: MarketDataEvent | None = None
         self.last_received_at: datetime | None = None
         self.events_received = 0

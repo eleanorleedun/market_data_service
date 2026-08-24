@@ -1,3 +1,4 @@
+import asyncio
 from datetime import UTC, datetime
 
 import pytest
@@ -15,13 +16,22 @@ class FakeTestSource:
             source="test",
         )
 
+        await asyncio.sleep(10)
+
 
 @pytest.mark.asyncio
 async def test_consumer_stores_latest_event():
     source = FakeTestSource()
     consumer = MarketDataConsumer(source)
 
-    await consumer.run()
+    task = asyncio.create_task(consumer.run())
+
+    await asyncio.sleep(0)
+
+    task.cancel()
+
+    with pytest.raises(asyncio.CancelledError):
+        await task
 
     assert consumer.latest_event is not None
     assert consumer.latest_event.symbol == "AAPL"
