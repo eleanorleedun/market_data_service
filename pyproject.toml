@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "market-data-service"
+version = "0.1.0"
+description = "Production-style market data monitoring service"
+requires-python = ">=3.11"
+
+
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "yfinance>=1.0",
+    "prometheus-client>=0.21",
+    "pydantic-settings>=2.0",
+    "structlog>=25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+    "ruff>=0.9",
+]
+
+[project.scripts]
+market-data-service = "market_data_service.main:main"
+
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

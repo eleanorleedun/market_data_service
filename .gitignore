@@ -1,0 +1,6 @@
+.venv/
+*service.egg-info/
+.pytest*/
+.ruff_cache/
+src/**/__pycache__/*
+**/__pycache__/*
