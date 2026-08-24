@@ -1,3 +1,4 @@
+import asyncio
 from datetime import UTC, datetime
 
 from market_data_service.data_source import MarketDataSource
@@ -19,5 +20,13 @@ class MarketDataConsumer:
         events_received.inc()
 
     async def run(self) -> None:
-        async for event in self.source.stream():
-            self.process_event(event)
+        while True:
+            try:
+                async for event in self.source.stream():
+                    self.process_event(event)
+
+            except asyncio.CancelledError:
+                raise
+
+            except Exception:
+                await asyncio.sleep(self.reconnect_delay_seconds)
