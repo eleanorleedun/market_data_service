@@ -8,6 +8,8 @@ version = "0.1.0"
 description = "Production-style market data monitoring service"
 requires-python = ">=3.11"
 
+[project.scripts]
+market-data-service = "market_data_service.main:main"
 
 dependencies = [
     "fastapi>=0.115",
@@ -25,11 +27,6 @@ dev = [
     "httpx>=0.28",
     "ruff>=0.9",
 ]
-
-[project.scripts]
-market-data-service = "market_data_service.main:main"
-
-
 
 [tool.setuptools.packages.find]
 where = ["src"]
